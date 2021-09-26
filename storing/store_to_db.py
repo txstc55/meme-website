@@ -1,7 +1,16 @@
 import pymongo
 import os
 import hashlib
-import os
+import subprocess
+
+
+def convert_to_mp4(filename):
+    file_path_without_ext = ".".join(filename.split(".")[:-1])
+    outputfile = file_path_without_ext + ".mp4"
+    print("Convert", filename, outputfile)
+    subprocess.call(['ffmpeg', '-i', filename, outputfile])
+    subprocess.call(["rm", "rf", filename])
+    return outputfile
 
 
 def get_file_list(folder_name):
@@ -33,6 +42,7 @@ image_collection = mydb["images"]
 video_collection = mydb["videos"]
 gif_collection = mydb["gifs"]
 
+unprocessed_file_type = set([])
 
 for item in all_files:
     hash_id = hash_path(item)
@@ -40,12 +50,20 @@ for item in all_files:
     file_item = {"_id": hash_id, "path": item,
                  "request_explaination": False, "explaination": ""}
     if file_type == "mov":
+        file_name = convert_to_mp4(item)
+        file_item["id"] = hash_path(file_name)
+        file_item["path"] = file_name
+        insert_if_not_exist(file_item, video_collection)
+    elif file_type == "mp4":
         insert_if_not_exist(file_item, video_collection)
     elif file_type == "gif":
         insert_if_not_exist(file_item, gif_collection)
     elif file_type == "jpeg" or file_type == "jpg" or file_type == "png":
         insert_if_not_exist(file_item, image_collection)
     else:
-        print(file_type)
+        unprocessed_file_type.add(file_type)
+        # print(file_type)
+
+print(unprocessed_file_type)
 
     # if file_type == "mov":

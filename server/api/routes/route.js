@@ -25,9 +25,19 @@ module.exports = (app) => {
     app.route("/gif/request/:id")
         .get(controllers.get_gif_request_by_id) 
         .post(controllers.post_gif_request_by_id); 
-    // app
-    //     .route('/video')
-    //     .get(controllers.pick_one_video)
+
+
+    app.route("/video").get(controllers.pick_one_video); 
+
+    app.route("/video/content/:id").get(controllers.get_video_by_id); 
+
+    app.route("/video/explaination/:id")
+        .get(controllers.get_video_explaination_by_id) 
+        .post(controllers.post_video_explaination_by_id); 
+
+    app.route("/video/request/:id")
+        .get(controllers.get_video_request_by_id) 
+        .post(controllers.post_video_request_by_id); 
 };
 
 // test on 46479771

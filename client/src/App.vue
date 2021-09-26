@@ -2,7 +2,8 @@
   <v-app>
     <div id="nav">
       <router-link to="/">IMAGE</router-link> |
-      <router-link to="/gif">GIF</router-link>
+      <router-link to="/gif">GIF</router-link> | 
+      <router-link to="/video">VIDEO</router-link>
     </div>
     <router-view />
   </v-app>

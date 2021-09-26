@@ -129,7 +129,7 @@ exports.post_image_explaination_by_id = async (req, res) => {
     const id = parseInt(req.params.id);
     images.findByIdAndUpdate(
         id,
-        { request_explaination: false, explaination: req.body.text},
+        { request_explaination: false, explaination: req.body.text },
         (err, result) => {
             if (err) {
                 console.log(
@@ -246,7 +246,7 @@ exports.post_gif_explaination_by_id = async (req, res) => {
     const id = parseInt(req.params.id);
     gifs.findByIdAndUpdate(
         id,
-        { request_explaination: false, explaination: req.body.text},
+        { request_explaination: false, explaination: req.body.text },
         (err, result) => {
             if (err) {
                 console.log(
@@ -258,6 +258,139 @@ exports.post_gif_explaination_by_id = async (req, res) => {
                 res.send({ success: false });
             } else {
                 console.log("gif explaination added for id: ", id);
+                res.send({ success: true });
+            }
+        }
+    );
+};
+
+exports.pick_one_video = async (_, res) => {
+    return await videos.count().exec(async (err1, count) => {
+        if (err1) res.send(err1);
+        var random = Math.floor(Math.random() * count);
+        return await videos
+            .findOne()
+            .skip(random)
+            .exec(function (err2, result) {
+                if (err2) res.send(err2);
+                const videodata = fs.readFileSync(result.path);
+                console.log("video ", result._id, result.path);
+                res.send({
+                    id: result._id,
+                    explaination: result.explaination,
+                    request_explaination: result.request_explaination,
+                });
+                res.end();
+                res.connection.end();
+            });
+    });
+};
+
+exports.get_video_by_id = async (req, res) => {
+    return await videos.findById(req.params.id).then(async (result) => {
+        if (!result) {
+            res.status(404).send({
+                message: "FAIL TO GET video " + id,
+            });
+        } else {
+            const path = result.path;
+            const stat = fs.statSync(path);
+            const fileSize = stat.size;
+            const range = req.headers.range;
+            if (range) {
+                const parts = range.replace(/bytes=/, "").split("-");
+                const start = parseInt(parts[0], 10);
+                const end = parts[1] ? parseInt(parts[1], 10) : fileSize - 1;
+                const chunksize = end - start + 1;
+                const file = fs.createReadStream(path, { start, end });
+                const head = {
+                    "Content-Range": `bytes ${start}-${end}/${fileSize}`,
+                    "Accept-Ranges": "bytes",
+                    "Content-Length": chunksize,
+                    "Content-Type": "video/mp4",
+                };
+                res.writeHead(206, head);
+                file.pipe(res);
+            } else {
+                const head = {
+                    "Content-Length": fileSize,
+                    "Content-Type": "video/mp4",
+                };
+                res.writeHead(200, head);
+                fs.createReadStream(path).pipe(res);
+            }
+        }
+    });
+};
+
+exports.get_video_explaination_by_id = async (req, res) => {
+    return await videos.findById(req.params.id).then(async (result) => {
+        if (!result) {
+            res.status(404).send({
+                message: "FAIL TO GET video " + id,
+            });
+        } else {
+            const explaination = result.explaination;
+            res.send({ explaination: explaination });
+            res.end();
+            res.connection.end();
+        }
+    });
+};
+
+exports.get_video_request_by_id = async (req, res) => {
+    return await videos.findById(req.params.id).then(async (result) => {
+        if (!result) {
+            res.status(404).send({
+                message: "FAIL TO GET video " + id,
+            });
+        } else {
+            const request_explaination = result.request_explaination;
+            res.send({ request_explaination: request_explaination });
+            res.end();
+            res.connection.end();
+        }
+    });
+};
+
+exports.post_video_request_by_id = async (req, res) => {
+    const id = parseInt(req.params.id);
+    videos.findByIdAndUpdate(
+        id,
+        { request_explaination: true },
+        (err, result) => {
+            if (err) {
+                console.log(
+                    "video request explaination error, id: ",
+                    id,
+                    ", err: ",
+                    err
+                );
+                res.send({ success: false });
+            } else {
+                console.log("video request explaination for id: ", id);
+                res.send({ success: true });
+            }
+        }
+    );
+};
+
+exports.post_video_explaination_by_id = async (req, res) => {
+    const id = parseInt(req.params.id);
+    videos.findByIdAndUpdate(
+        id,
+        { request_explaination: false, explaination: req.body.text },
+        (err, result) => {
+            if (err) {
+                console.log(
+                    "video adding explaination error, id: ",
+                    id,
+                    ", err: ",
+                    err
+                );
+                res.send({ success: false });
+            } else {
+                console.log("video explaination added for id: ", id);
                 res.send({ success: true });
             }
         }
