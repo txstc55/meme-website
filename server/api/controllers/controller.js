@@ -40,50 +40,109 @@ exports.pick_one_image = async (_, res) => {
             .exec(function (err2, result) {
                 if (err2) res.send(err2);
                 const imgdata = fs.readFileSync(result.path);
-                const imgExtension = result.path.split(".").at(-1);
-                console.log(result._id, result.path);
-                res.contentType = "image/png";
-                res.setHeader(
-                    "Content-Disposition",
-                    'attachment; filename="' +
-                        result._id +
-                        "." +
-                        imgExtension +
-                        '"'
-                );
-                res.send(imgdata);
-                // res.json({ id: result._id, data: imgdata });
+                console.log("Image ", result._id, result.path);
+                res.send({
+                    id: result._id,
+                    explaination: result.explaination,
+                    request_explaination: result.request_explaination,
+                });
                 res.end();
                 res.connection.end();
             });
     });
 };
 
-exports.pick_one_gif = async (_, res) => {
-    return await gifs.count().exec(async (err1, count) => {
-        if (err1) res.send(err1);
-        var random = Math.floor(Math.random() * count);
-        return await gifs
-            .findOne()
-            .skip(random)
-            .exec(function (err2, result) {
-                if (err2) res.send(err2);
-                const gifdata = fs.readFileSync(result.path);
-                const gifExtension = "gif";
-                console.log(result._id, result.path);
-                res.contentType = "image/gif";
-                res.setHeader(
-                    "Content-Disposition",
-                    'attachment; filename="' +
-                        result._id +
-                        "." +
-                        gifExtension +
-                        '"'
-                );
-                res.send(gifdata);
-                // res.json({ id: result._id, data: imgdata });
-                res.end();
-                res.connection.end();
+exports.get_image_by_id = async (req, res) => {
+    return await images.findById(req.params.id).then(async (result) => {
+        if (!result) {
+            res.status(404).send({
+                message: "FAIL TO GET IMAGE " + id,
             });
+        } else {
+            const imgdata = fs.readFileSync(result.path);
+            const imgExtension = result.path.split(".").at(-1);
+            res.contentType = "image/png";
+            res.setHeader(
+                "Content-Disposition",
+                'attachment; filename="' + result._id + "." + imgExtension + '"'
+            );
+            res.send(imgdata);
+            res.end();
+            res.connection.end();
+        }
     });
+};
+
+exports.get_image_explaination_by_id = async (req, res) => {
+    return await images.findById(req.params.id).then(async (result) => {
+        if (!result) {
+            res.status(404).send({
+                message: "FAIL TO GET IMAGE " + id,
+            });
+        } else {
+            const explaination = result.explaination;
+            res.send({ explaination: explaination });
+            res.end();
+            res.connection.end();
+        }
+    });
+};
+
+exports.get_image_request_by_id = async (req, res) => {
+    return await images.findById(req.params.id).then(async (result) => {
+        if (!result) {
+            res.status(404).send({
+                message: "FAIL TO GET IMAGE " + id,
+            });
+        } else {
+            const request_explaination = result.request_explaination;
+            res.send({ request_explaination: request_explaination });
+            res.end();
+            res.connection.end();
+        }
+    });
+};
+
+exports.post_image_request_by_id = async (req, res) => {
+    const id = parseInt(req.params.id);
+    images.findByIdAndUpdate(
+        id,
+        { request_explaination: true },
+        (err, result) => {
+            if (err) {
+                console.log(
+                    "Image request explaination error, id: ",
+                    id,
+                    ", err: ",
+                    err
+                );
+                res.send({ success: false });
+            } else {
+                console.log("Image request explaination for id: ", id);
+                res.send({ success: true });
+            }
+        }
+    );
+};
+
+exports.post_image_explaination_by_id = async (req, res) => {
+    const id = parseInt(req.params.id);
+    images.findByIdAndUpdate(
+        id,
+        { request_explaination: false, explaination: req.body.text},
+        (err, result) => {
+            if (err) {
+                console.log(
+                    "Image adding explaination error, id: ",
+                    id,
+                    ", err: ",
+                    err
+                );
+                res.send({ success: false });
+            } else {
+                console.log("Image explaination added for id: ", id);
+                res.send({ success: true });
+            }
+        }
+    );
 };
