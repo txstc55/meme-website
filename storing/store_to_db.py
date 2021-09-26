@@ -43,7 +43,7 @@ for item in all_files:
         insert_if_not_exist(file_item, video_collection)
     elif file_type == "gif":
         insert_if_not_exist(file_item, gif_collection)
-    elif file_type == "jpeg":
+    elif file_type == "jpeg" or file_type == "jpg" or file_type == "png":
         insert_if_not_exist(file_item, image_collection)
     else:
         print(file_type)
