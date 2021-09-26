@@ -40,7 +40,7 @@
 </template>
 
 <script>
-const host = "http://localhost:5001/";
+const host = "http://118.25.3.47:5001/";
 import axios from "axios";
 export default {
   name: "GifViewer",
