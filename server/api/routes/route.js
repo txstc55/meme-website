@@ -12,17 +12,22 @@ module.exports = (app) => {
     app.route("/image/request/:id")
         .get(controllers.get_image_request_by_id) // get the image explaination request by id
         .post(controllers.post_image_request_by_id); // post the image explaination request by id
-    // app.route("/gif").get(controllers.pick_one_gif);
 
-    // app.route("/gif/content/:id").get(controllers.get_gif_by_id);
 
-    // app.route("/gif/explaination/:id")
-    //     .get(controllers.get_gif_explaination_by_id)
-    //     .post(controllers.post_gif_explaination_by_id);
+    app.route("/gif").get(controllers.pick_one_gif); 
+
+    app.route("/gif/content/:id").get(controllers.get_gif_by_id); 
+
+    app.route("/gif/explaination/:id")
+        .get(controllers.get_gif_explaination_by_id) 
+        .post(controllers.post_gif_explaination_by_id); 
+
+    app.route("/gif/request/:id")
+        .get(controllers.get_gif_request_by_id) 
+        .post(controllers.post_gif_request_by_id); 
     // app
     //     .route('/video')
     //     .get(controllers.pick_one_video)
 };
-
 
 // test on 46479771
