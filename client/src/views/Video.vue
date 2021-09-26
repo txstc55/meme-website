@@ -42,9 +42,8 @@
 </template>
 
 <script>
-const host = "118.25.3.47:5001/";
+const host = "http://134.209.65.198:5001/";
 import axios from "axios";
-// import VueCoreVideoPlayer from 'vue-core-video-player'
 export default {
   name: "VideoViewer",
   data() {
