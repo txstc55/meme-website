@@ -118,7 +118,8 @@ exports.post_image_request_by_id = async (req, res) => {
                 );
                 res.send({ success: false });
             } else {
-                console.log("Image request explaination for id: ", id);
+                var datetime = "Query at: " + new Date().today() + " @ " + new Date().timeNow();
+                console.log("Image request explaination for id: ", id, datetime);
                 res.send({ success: true });
             }
         }
@@ -235,7 +236,8 @@ exports.post_gif_request_by_id = async (req, res) => {
                 );
                 res.send({ success: false });
             } else {
-                console.log("gif request explaination for id: ", id);
+                var datetime = "Query at: " + new Date().today() + " @ " + new Date().timeNow();
+                console.log("gif request explaination for id: ", id, datetime);
                 res.send({ success: true });
             }
         }
@@ -368,7 +370,8 @@ exports.post_video_request_by_id = async (req, res) => {
                 );
                 res.send({ success: false });
             } else {
-                console.log("video request explaination for id: ", id);
+                var datetime = "Query at: " + new Date().today() + " @ " + new Date().timeNow();
+                console.log("video request explaination for id: ", id, datetime);
                 res.send({ success: true });
             }
         }
