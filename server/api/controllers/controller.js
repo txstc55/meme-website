@@ -39,8 +39,8 @@ exports.pick_one_image = async (_, res) => {
             .skip(random)
             .exec(function (err2, result) {
                 if (err2) res.send(err2);
-                const imgdata = fs.readFileSync(result.path);
-                console.log("Image ", result._id, result.path);
+                var datetime = "Query at: " + new Date().today() + " @ " + new Date().timeNow();
+                console.log("Image ", result._id, result.path, datetime);
                 res.send({
                     id: result._id,
                     explaination: result.explaination,
@@ -156,8 +156,8 @@ exports.pick_one_gif = async (_, res) => {
             .skip(random)
             .exec(function (err2, result) {
                 if (err2) res.send(err2);
-                const gifdata = fs.readFileSync(result.path);
-                console.log("gif ", result._id, result.path);
+                var datetime = "Query at: " + new Date().today() + " @ " + new Date().timeNow();
+                console.log("gif ", result._id, result.path, datetime);
                 res.send({
                     id: result._id,
                     explaination: result.explaination,
@@ -273,8 +273,8 @@ exports.pick_one_video = async (_, res) => {
             .skip(random)
             .exec(function (err2, result) {
                 if (err2) res.send(err2);
-                const videodata = fs.readFileSync(result.path);
-                console.log("video ", result._id, result.path);
+                var datetime = "Query at: " + new Date().today() + " @ " + new Date().timeNow();
+                console.log("video ", result._id, result.path, datetime);
                 res.send({
                     id: result._id,
                     explaination: result.explaination,
