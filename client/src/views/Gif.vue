@@ -17,7 +17,7 @@
                 width="100%"
                 class="output-button"
                 color="rgb(10, 192, 144)"
-                @click="getNewImage"
+                @click="getNewGif"
                 >ANOTHER ONE</v-btn
               ></v-row
             >
@@ -96,14 +96,14 @@ export default {
     },
     download() {
       axios({
-        url: host + "image/content/" + this.imgID,
+        url: host + "gif/content/" + this.gifID,
         method: "GET",
         responseType: "blob",
       }).then((response) => {
         const url = window.URL.createObjectURL(new Blob([response.data]));
         const link = document.createElement("a");
         link.href = url;
-        link.setAttribute("download", this.imgID + ".gif");
+        link.setAttribute("download", this.gifID + ".gif");
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
