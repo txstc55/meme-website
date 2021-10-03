@@ -1,7 +1,7 @@
 <template>
   <div>
     <v-container fluid>
-      <v-img class="" :src="imgSrc" max-height="65vh" contain> </v-img>
+      <v-img class="" :src="fileSrc" max-height="65vh" contain> </v-img>
       <div class="utils">
         <v-row>
           <v-col cols="1" xl="2" lg="2" md="2" sm="1" xs="1"></v-col>
@@ -50,11 +50,11 @@ export default {
   name: "ImageViewer",
   data() {
     return {
-      imgSrc: "",
+      fileSrc: "",
       explaination: "No Explaination Yet",
       canRequestExplaination: false,
       requestExplainationText: "REQUEST EXPLAINATION",
-      imgID: null,
+      fileID: null,
       requestDisabled: false,
     };
   },
@@ -64,8 +64,8 @@ export default {
       this.requestExplainationText = "REQUEST EXPLAINATION";
       axios.get(host + "image").then((response) => {
         const id = response.data.id;
-        this.imgID = id;
-        this.imgSrc = host + "image/content/" + id;
+        this.fileID = id;
+        this.fileSrc = host + "image/content/" + id;
         this.explaination =
           response.data.explaination == ""
             ? "No Explaination Yet"
@@ -83,7 +83,7 @@ export default {
       });
     },
     requestExplaination() {
-      axios.post(host + "image/request/" + this.imgID).then((response) => {
+      axios.post(host + "image/request/" + this.fileID).then((response) => {
         if (response.data.success) {
           this.requestExplainationText = "REQUEST ACKNOWLEDGED";
           this.canRequestExplaination = false;
@@ -92,14 +92,14 @@ export default {
     },
     download() {
       axios({
-        url: host + "image/content/" + this.imgID,
+        url: host + "image/content/" + this.fileID,
         method: "GET",
         responseType: "blob",
       }).then((response) => {
         const url = window.URL.createObjectURL(new Blob([response.data]));
         const link = document.createElement("a");
         link.href = url;
-        link.setAttribute("download", this.imgID + ".JPG");
+        link.setAttribute("download", this.fileID + ".JPG");
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);

@@ -2,7 +2,7 @@
   <div>
     <v-container fluid>
       <video id="videoPlayer" controls>
-        <source :src="videoSrc" type="video/mp4" />
+        <source :src="fileSrc" type="video/mp4" />
       </video>
       <div class="utils">
         <v-row>
@@ -52,11 +52,11 @@ export default {
   name: "VideoViewer",
   data() {
     return {
-      videoSrc: "",
+      fileSrc: "",
       explaination: "No Explaination Yet",
       canRequestExplaination: false,
       requestExplainationText: "REQUEST EXPLAINATION",
-      videoID: null,
+      fileID: null,
       requestDisabled: false,
       videoPlayer: null,
     };
@@ -67,8 +67,8 @@ export default {
       this.requestExplainationText = "REQUEST EXPLAINATION";
       axios.get(host + "video").then((response) => {
         const id = response.data.id;
-        this.videoID = id;
-        this.videoSrc = host + "video/content/" + id;
+        this.fileID = id;
+        this.fileSrc = host + "video/content/" + id;
         this.videoPlayer.load();
         this.explaination =
           response.data.explaination == ""
@@ -87,7 +87,7 @@ export default {
       });
     },
     requestExplaination() {
-      axios.post(host + "video/request/" + this.videoID).then((response) => {
+      axios.post(host + "video/request/" + this.fileID).then((response) => {
         if (response.data.success) {
           this.requestExplainationText = "REQUEST ACKNOWLEDGED";
           this.canRequestExplaination = false;
@@ -96,14 +96,14 @@ export default {
     },
     download() {
       axios({
-        url: host + "video/content/" + this.videoID,
+        url: host + "video/content/" + this.fileID,
         method: "GET",
         responseType: "blob",
       }).then((response) => {
         const url = window.URL.createObjectURL(new Blob([response.data]));
         const link = document.createElement("a");
         link.href = url;
-        link.setAttribute("download", this.videoID + ".mp4");
+        link.setAttribute("download", this.fileID + ".mp4");
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
