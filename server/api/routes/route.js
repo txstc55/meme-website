@@ -2,6 +2,7 @@ const controllers = require("../controllers/controller");
 
 module.exports = (app) => {
     app.route("/image").get(controllers.pick_one_image); // get a random image id
+    app.route("/image/:id").get(controllers.pick_id_image); // get a random image id
 
     app.route("/image/content/:id").get(controllers.get_image_by_id); // get the content of image by id
 
