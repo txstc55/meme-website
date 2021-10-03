@@ -52,9 +52,7 @@ exports.pick_one_image = async (_, res) => {
 exports.pick_id_image = async (req, res) => {
   return await images.findById(req.params.id).then(async (result) => {
     if (!result) {
-      res.status(404).send({
-        message: "FAIL TO GET IMAGE INFO: " + req.params.id,
-      });
+      this.pick_one_image(res);
     } else {
       var datetime =
         "Query at: " + new Date().today() + " @ " + new Date().timeNow();
