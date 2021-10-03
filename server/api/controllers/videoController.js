@@ -52,8 +52,28 @@ exports.pick_one_video = async (_, res) => {
 exports.pick_id_video = async (req, res) => {
   return await videos.findById(req.params.id).then(async (result) => {
     if (!result) {
-      res.status(404).send({
-        message: "FAIL TO GET VIDEO INFO: " + req.params.id,
+      console.log(
+        "Video with ID ",
+        req.params.id,
+        " not found, selecting random"
+      );
+      return await videos.count().exec(async (err1, count) => {
+        if (err1) res.send(err1);
+        var random = Math.floor(Math.random() * count);
+        return await videos
+          .findOne()
+          .skip(random)
+          .exec(function (err2, result) {
+            if (err2) res.send(err2);
+            var datetime =
+              "Query at: " + new Date().today() + " @ " + new Date().timeNow();
+            console.log("Video Select ", result._id, result.path, datetime);
+            res.send({
+              id: result._id,
+            });
+            res.end();
+            res.connection.end();
+          });
       });
     } else {
       var datetime =

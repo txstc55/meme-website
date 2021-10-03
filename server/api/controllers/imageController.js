@@ -52,6 +52,11 @@ exports.pick_one_image = async (_, res) => {
 exports.pick_id_image = async (req, res) => {
   return await images.findById(req.params.id).then(async (result) => {
     if (!result) {
+      console.log(
+        "Image with ID ",
+        req.params.id,
+        " not found, selecting random"
+      );
       return await images.count().exec(async (err1, count) => {
         if (err1) res.send(err1);
         var random = Math.floor(Math.random() * count);

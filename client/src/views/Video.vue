@@ -67,7 +67,7 @@ export default {
       this.requestExplainationText = "REQUEST EXPLAINATION";
       axios.get(host + "video").then((response) => {
         const id = response.data.id;
-        this.$router.push({ name: 'Video with ID', params: { id: id } })
+        this.$router.push({ name: "Video with ID", params: { id: id } });
       });
     },
     getSpecificOne() {
@@ -75,22 +75,26 @@ export default {
       this.requestExplainationText = "REQUEST EXPLAINATION";
       axios.get(host + "video/" + this.$route.params.id).then((response) => {
         const id = response.data.id;
-        this.fileID = id;
-        this.fileSrc = host + "video/content/" + id;
-        this.videoPlayer.load();
-        this.explaination =
-          response.data.explaination == ""
-            ? "No Explaination Yet"
-            : response.data.explaination;
-        this.canRequestExplaination =
-          !response.data.request_explaination &&
-          response.data.explaination == "";
-        if (response.data.explaination != "") {
-          this.requestExplainationText = " ALREADY EXPLAINED ";
-          this.canRequestExplaination = false;
-        } else if (response.data.request_explaination) {
-          this.requestExplainationText = "REQUEST ACKNOWLEDGED";
-          this.canRequestExplaination = false;
+        if (id == this.$route.params.id) {
+          this.fileID = id;
+          this.fileSrc = host + "video/content/" + id;
+          this.videoPlayer.load();
+          this.explaination =
+            response.data.explaination == ""
+              ? "No Explaination Yet"
+              : response.data.explaination;
+          this.canRequestExplaination =
+            !response.data.request_explaination &&
+            response.data.explaination == "";
+          if (response.data.explaination != "") {
+            this.requestExplainationText = " ALREADY EXPLAINED ";
+            this.canRequestExplaination = false;
+          } else if (response.data.request_explaination) {
+            this.requestExplainationText = "REQUEST ACKNOWLEDGED";
+            this.canRequestExplaination = false;
+          }
+        }else {
+          this.$router.push({ name: "Video with ID", params: { id: id } });
         }
       });
     },

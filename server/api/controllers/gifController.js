@@ -28,7 +28,6 @@ Date.prototype.timeNow = function () {
   );
 };
 
-
 exports.pick_one_gif = async (_, res) => {
   return await gifs.count().exec(async (err1, count) => {
     if (err1) res.send(err1);
@@ -53,8 +52,28 @@ exports.pick_one_gif = async (_, res) => {
 exports.pick_id_gif = async (req, res) => {
   return await gifs.findById(req.params.id).then(async (result) => {
     if (!result) {
-      res.status(404).send({
-        message: "FAIL TO GET GIF INFO: " + req.params.id,
+      console.log(
+        "Gif with ID ",
+        req.params.id,
+        " not found, selecting random"
+      );
+      return await gifs.count().exec(async (err1, count) => {
+        if (err1) res.send(err1);
+        var random = Math.floor(Math.random() * count);
+        return await gifs
+          .findOne()
+          .skip(random)
+          .exec(function (err2, result) {
+            if (err2) res.send(err2);
+            var datetime =
+              "Query at: " + new Date().today() + " @ " + new Date().timeNow();
+            console.log("Gif Select ", result._id, result.path, datetime);
+            res.send({
+              id: result._id,
+            });
+            res.end();
+            res.connection.end();
+          });
       });
     } else {
       var datetime =
