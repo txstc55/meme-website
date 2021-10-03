@@ -67,6 +67,14 @@ export default {
       this.requestExplainationText = "REQUEST EXPLAINATION";
       axios.get(host + "video").then((response) => {
         const id = response.data.id;
+        this.$router.push({ name: 'Video with ID', params: { id: id } })
+      });
+    },
+    getSpecificOne() {
+      this.canRequestExplaination = true;
+      this.requestExplainationText = "REQUEST EXPLAINATION";
+      axios.get(host + "video/" + this.$route.params.id).then((response) => {
+        const id = response.data.id;
         this.fileID = id;
         this.fileSrc = host + "video/content/" + id;
         this.videoPlayer.load();
@@ -85,6 +93,13 @@ export default {
           this.canRequestExplaination = false;
         }
       });
+    },
+    getOne() {
+      if (this.$route.params.id == undefined) {
+        this.getAnotherOne();
+      } else {
+        this.getSpecificOne();
+      }
     },
     requestExplaination() {
       axios.post(host + "video/request/" + this.fileID).then((response) => {
@@ -110,9 +125,14 @@ export default {
       });
     },
   },
+  watch: {
+    $route() {
+      this.getOne();
+    },
+  },
   mounted() {
     this.videoPlayer = document.getElementById("videoPlayer");
-    this.getAnotherOne();
+    this.getOne();
   },
 };
 </script>

@@ -64,6 +64,14 @@ export default {
       this.requestExplainationText = "REQUEST EXPLAINATION";
       axios.get(host + "gif").then((response) => {
         const id = response.data.id;
+        this.$router.push({ name: 'Gif with ID', params: { id: id } })
+      });
+    },
+    getSpecificOne() {
+      this.canRequestExplaination = true;
+      this.requestExplainationText = "REQUEST EXPLAINATION";
+      axios.get(host + "gif/" + this.$route.params.id).then((response) => {
+        const id = response.data.id;
         this.fileID = id;
         this.fileSrc = host + "gif/content/" + id;
         this.explaination =
@@ -81,6 +89,13 @@ export default {
           this.canRequestExplaination = false;
         }
       });
+    },
+    getOne() {
+      if (this.$route.params.id == undefined) {
+        this.getAnotherOne();
+      } else {
+        this.getSpecificOne();
+      }
     },
     requestExplaination() {
       axios.post(host + "gif/request/" + this.fileID).then((response) => {
@@ -106,8 +121,13 @@ export default {
       });
     },
   },
+  watch: {
+    $route() {
+      this.getOne();
+    },
+  },
   mounted() {
-    this.getAnotherOne();
+    this.getOne();
   },
 };
 </script>

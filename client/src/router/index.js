@@ -10,18 +10,33 @@ const routes = [
         component: () => import("../views/About.vue"),
     },
     {
-        path: "/image",
+        path: "/image/",
         name: "Image",
         component: () => import("../views/Image.vue"),
     },
     {
-        path: "/gif",
+        path: "/image/:id",
+        name: "Image with ID",
+        component: () => import("../views/Image.vue"),
+    },
+    {
+        path: "/gif/",
         name: "Gif",
         component: () => import("../views/Gif.vue"),
     },
     {
-        path: "/video",
+        path: "/gif/:id",
+        name: "Gif with ID",
+        component: () => import("../views/Gif.vue"),
+    },
+    {
+        path: "/video/",
         name: "Video",
+        component: () => import("../views/Video.vue"),
+    },
+    {
+        path: "/video/:id",
+        name: "Video with ID",
         component: () => import("../views/Video.vue"),
     },
 ];
