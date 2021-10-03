@@ -39,11 +39,9 @@ exports.pick_one_video = async (_, res) => {
         if (err2) res.send(err2);
         var datetime =
           "Query at: " + new Date().today() + " @ " + new Date().timeNow();
-        console.log("video ", result._id, result.path, datetime);
+        console.log("Video Select ", result._id, result.path, datetime);
         res.send({
           id: result._id,
-          explaination: result.explaination,
-          request_explaination: result.request_explaination,
         });
         res.end();
         res.connection.end();

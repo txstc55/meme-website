@@ -40,11 +40,9 @@ exports.pick_one_gif = async (_, res) => {
         if (err2) res.send(err2);
         var datetime =
           "Query at: " + new Date().today() + " @ " + new Date().timeNow();
-        console.log("gif ", result._id, result.path, datetime);
+        console.log("Gif Select ", result._id, result.path, datetime);
         res.send({
           id: result._id,
-          explaination: result.explaination,
-          request_explaination: result.request_explaination,
         });
         res.end();
         res.connection.end();
