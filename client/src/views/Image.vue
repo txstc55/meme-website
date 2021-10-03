@@ -112,6 +112,4 @@ export default {
 };
 </script>
 
-<style global>
-
-</style>
+<style global></style>
