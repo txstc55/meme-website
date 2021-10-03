@@ -52,7 +52,24 @@ exports.pick_one_image = async (_, res) => {
 exports.pick_id_image = async (req, res) => {
   return await images.findById(req.params.id).then(async (result) => {
     if (!result) {
-      this.pick_one_image(res);
+      return await images.count().exec(async (err1, count) => {
+        if (err1) res.send(err1);
+        var random = Math.floor(Math.random() * count);
+        return await images
+          .findOne()
+          .skip(random)
+          .exec(function (err2, result) {
+            if (err2) res.send(err2);
+            var datetime =
+              "Query at: " + new Date().today() + " @ " + new Date().timeNow();
+            console.log("Image Select ", result._id, result.path, datetime);
+            res.send({
+              id: result._id,
+            });
+            res.end();
+            res.connection.end();
+          });
+      });
     } else {
       var datetime =
         "Query at: " + new Date().today() + " @ " + new Date().timeNow();
