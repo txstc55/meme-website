@@ -1,49 +1,43 @@
 <template>
   <div>
     <v-container fluid>
-      <v-img class="mt-10" :src="gifSrc" max-height="70vh" contain> </v-img>
+      <v-img class="mt-10" :src="gifSrc" max-height="65vh" contain> </v-img>
       <div class="utils">
         <v-row>
-          <v-col cols="10" md="8" sm="6" xs="6">
-            <div class="explaination">
-              <h2>Explaination:</h2>
-              <h3>{{ gifExplaination }}</h3>
-            </div>
+          <v-col cols="1" xl="2" lg="2" md="2" sm="1" xs="1"></v-col>
+          <v-col cols="10" xl="8" lg="8" md="8" sm="10" xs="10">
+            <h5 class="explaination">Explaination: {{ explaination }}</h5>
           </v-col>
-          <v-col cols="2" md="4" sm="6" xs="6">
-            <v-row class="pt-2"
-              ><v-btn
-                block
-                width="100%"
-                class="output-button"
-                color="rgb(10, 192, 144)"
-                @click="getAnotherOne"
-                >ANOTHER ONE</v-btn
-              ></v-row
-            >
-            <v-row class="pt-2"
-              ><v-btn
-                block
-                width="100%"
-                class="output-button"
-                color="rgb(10, 192, 144)"
-                @click="requestExplaination"
-                :disabled="!canRequestExplaination"
-                >{{ requestExplainationText }}</v-btn
-              ></v-row
-            >
-            <v-row class="pt-2"
-              ><v-btn
-                block
-                width="100%"
-                class="output-button"
-                color="rgb(10, 192, 144)"
-                @click="download"
-                >SAVE IT</v-btn
-              ></v-row
-            >
-          </v-col>
+          <v-col cols="1" xl="2" lg="2" md="2" sm="1" xs="1"></v-col>
         </v-row>
+        <v-row>
+          <v-col cols="1" xl="3" lg="3" md="2" sm="1" xs="1"></v-col>
+          <v-col cols="10" xl="6" lg="6" md="8" sm="10" xs="10">
+            <v-btn
+              block
+              class="output-button"
+              color="rgb(10, 192, 144)"
+              @click="getAnotherOne"
+              >ANOTHER ONE</v-btn
+            >
+            <v-btn
+              block
+              class="output-button mt-1"
+              color="rgb(10, 192, 144)"
+              @click="requestExplaination"
+              :disabled="!canRequestExplaination"
+              >{{ requestExplainationText }}</v-btn
+            >
+            <v-btn
+              block
+              class="output-button mt-1"
+              color="rgb(10, 192, 144)"
+              @click="download"
+              >SAVE IT</v-btn
+            >
+          </v-col>
+          <v-col cols="1" xl="3" lg="3" md="2" sm="1" xs="1"></v-col
+        ></v-row>
       </div>
     </v-container>
   </div>
@@ -57,7 +51,7 @@ export default {
   data() {
     return {
       gifSrc: "",
-      gifExplaination: "N/A",
+      explaination: "No Explaination Yet",
       canRequestExplaination: false,
       requestExplainationText: "REQUEST EXPLAINATION",
       gifID: null,
@@ -72,8 +66,10 @@ export default {
         const id = response.data.id;
         this.gifID = id;
         this.gifSrc = host + "gif/content/" + id;
-        this.gifExplaination =
-          response.data.explaination == "" ? "N/A" : response.data.explaination;
+        this.explaination =
+          response.data.explaination == ""
+            ? "No Explaination Yet"
+            : response.data.explaination;
         this.canRequestExplaination =
           !response.data.request_explaination &&
           response.data.explaination == "";
@@ -115,35 +111,3 @@ export default {
   },
 };
 </script>
-
-<style scoped>
-.utils {
-  margin-left: 25%;
-  margin-right: 25%;
-  margin-top: 2vh;
-  padding-left: 20px;
-  height: 6vh;
-}
-
-.explaination {
-  padding-right: 20px;
-  text-align: left;
-  border: 3px solid #cccccc;
-  overflow-y: scroll;
-  font-family: Tahoma, sans-serif;
-  color: white;
-  height: 6vh;
-  font-size: 20px;
-}
-
-.outpout-button {
-  font-weight: bold;
-}
-
-.output-button .v-btn__content {
-  color: #182750;
-}
-.output-button .v-btn--disabled.v-btn__content {
-  color: #b9e4a6;
-}
-</style>

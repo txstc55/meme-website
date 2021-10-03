@@ -2,7 +2,7 @@
   <v-app>
     <div id="nav">
       <router-link to="/">IMAGE</router-link> |
-      <router-link to="/gif">GIF</router-link> | 
+      <router-link to="/gif">GIF</router-link> |
       <router-link to="/video">VIDEO</router-link>
     </div>
     <router-view />
@@ -31,5 +31,34 @@
 #nav a.router-link-exact-active {
   color: #44e79e;
   font-weight: bold;
+}
+</style>
+
+<style global>
+.utils {
+  margin-top: 2vh;
+  padding-left: 20px;
+  height: 6vh;
+}
+
+.explaination {
+  padding-right: 20px;
+  text-align: center;
+  overflow-y: scroll;
+  font-family: Tahoma, sans-serif;
+  color: white;
+  height: 6vh;
+  font-size: 20px;
+}
+
+.outpout-button {
+  font-weight: bold;
+}
+
+.output-button .v-btn__content {
+  color: #182750;
+}
+.output-button .v-btn--disabled.v-btn__content {
+  color: #b9e4a6;
 }
 </style>
