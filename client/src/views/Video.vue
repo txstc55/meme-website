@@ -19,7 +19,7 @@
                 width="100%"
                 class="output-button"
                 color="rgb(10, 192, 144)"
-                @click="getNewVideo"
+                @click="getAnotherOne"
                 >ANOTHER ONE</v-btn
               ></v-row
             >
@@ -68,7 +68,7 @@ export default {
     };
   },
   methods: {
-    getNewVideo() {
+    getAnotherOne() {
       this.canRequestExplaination = true;
       this.requestExplainationText = "REQUEST EXPLAINATION";
       axios.get(host + "video").then((response) => {
@@ -116,7 +116,7 @@ export default {
   },
   mounted() {
     this.videoPlayer = document.getElementById("videoPlayer");
-    this.getNewVideo();
+    this.getAnotherOne();
   },
 };
 </script>

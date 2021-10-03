@@ -17,7 +17,7 @@
                 width="100%"
                 class="output-button"
                 color="rgb(10, 192, 144)"
-                @click="getNewImage"
+                @click="getAnotherOne"
                 >ANOTHER ONE</v-btn
               ></v-row
             >
@@ -65,7 +65,7 @@ export default {
     };
   },
   methods: {
-    getNewImage() {
+    getAnotherOne() {
       this.canRequestExplaination = true;
       this.requestExplainationText = "REQUEST EXPLAINATION";
       axios.get(host + "image").then((response) => {
@@ -111,7 +111,7 @@ export default {
     },
   },
   mounted() {
-    this.getNewImage();
+    this.getAnotherOne();
   },
 };
 </script>

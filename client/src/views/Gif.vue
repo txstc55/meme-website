@@ -17,7 +17,7 @@
                 width="100%"
                 class="output-button"
                 color="rgb(10, 192, 144)"
-                @click="getNewGif"
+                @click="getAnotherOne"
                 >ANOTHER ONE</v-btn
               ></v-row
             >
@@ -65,7 +65,7 @@ export default {
     };
   },
   methods: {
-    getNewGif() {
+    getAnotherOne() {
       this.canRequestExplaination = true;
       this.requestExplainationText = "REQUEST EXPLAINATION";
       axios.get(host + "gif").then((response) => {
@@ -111,7 +111,7 @@ export default {
     },
   },
   mounted() {
-    this.getNewGif();
+    this.getAnotherOne();
   },
 };
 </script>
