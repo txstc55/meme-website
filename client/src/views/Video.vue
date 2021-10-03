@@ -120,6 +120,8 @@ export default {
 <style scoped>
 #videoPlayer {
   height: 65vh;
+  max-width: 95%;
+  max-height: 65vh;
   /*  position: fixed;
   object-fit: fill;*/
   /*min-height:  100vh;*/
