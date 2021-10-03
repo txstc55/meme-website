@@ -53,7 +53,7 @@ exports.pick_one_image = async (_, res) => {
   });
 };
 
-exports.pick_id_image = async (_, res) => {
+exports.pick_id_image = async (req, res) => {
   return await images.findById(req.params.id).then(async (result) => {
     if (!result) {
       res.status(404).send({
