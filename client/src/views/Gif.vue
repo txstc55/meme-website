@@ -1,7 +1,7 @@
 <template>
   <div>
     <v-container fluid>
-      <v-img class="mt-10" :src="fileSrc" max-height="65vh" contain> </v-img>
+      <v-img class="" :src="fileSrc" max-height="65vh" contain> </v-img>
       <div class="utils">
         <v-row>
           <v-col cols="1" xl="2" lg="2" md="2" sm="1" xs="1"></v-col>
