@@ -59,7 +59,7 @@ exports.pick_id_gif = async (req, res) => {
     } else {
       var datetime =
         "Query at: " + new Date().today() + " @ " + new Date().timeNow();
-      console.log("gIF with ID ", result._id, result.path, datetime);
+      console.log("Gif with ID ", result._id, result.path, datetime);
       res.send({
         id: result._id,
         explaination: result.explaination,
