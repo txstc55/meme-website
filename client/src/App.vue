@@ -29,11 +29,11 @@ body {
 
 #nav a {
   /*font-weight: bold;*/
-  color: #2c3e50;
+  color: #44e79e;
 }
 
 #nav a.router-link-exact-active {
-  color: #44e79e;
+  color: #860840;
   font-weight: bold;
 }
 </style>
