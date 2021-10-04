@@ -44,7 +44,7 @@
 </template>
 
 <script>
-const host = "http://134.209.65.198:5001/";
+const host = "http://meme4meme.me/api/";
 import axios from "axios";
 export default {
   name: "ImageViewer",
